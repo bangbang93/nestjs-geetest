@@ -1,11 +1,11 @@
 {
-  "name": "nestjs-geetest",
-  "version": "1.1.12",
+  "name": "@bangbang93/nestjs-geetest",
+  "version": "2.0.0",
   "description": "NestJs library for GeeTest integration.",
   "main": "build/main/index.js",
   "typings": "build/main/index.d.ts",
   "module": "build/module/index.js",
-  "repository": "https://github.com/noctifer20/nestjs-geetest",
+  "repository": "https://github.com/bangbang93/nestjs-geetest",
   "license": "MIT",
   "keywords": [],
   "scripts": {
@@ -37,7 +37,8 @@
     "version": "standard-version",
     "reset-hard": "git clean -dfx && git reset --hard && yarn",
     "prepare-release": "run-s test cov:check doc:html version doc:publish",
-    "prepare": "husky install"
+    "prepare": "husky install",
+    "prepublishOnly": "npm run build"
   },
   "engines": {
     "node": ">=10"
