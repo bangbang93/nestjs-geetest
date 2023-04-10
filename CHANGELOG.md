@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [2.0.2](https://github.com/bangbang93/nestjs-geetest/compare/v1.1.12...v2.0.2) (2023-04-10)
+
+
+### Bug Fixes
+
+* upgrade axios ([03ae8b6](https://github.com/bangbang93/nestjs-geetest/commit/03ae8b61b1e92ddac1d6bf8e5cdd42805d2ec326))
+
 ### [1.1.12](https://github.com/noctifer20/nestjs-geetest/compare/v1.1.11...v1.1.12) (2021-09-06)
 
 
