@@ -7,7 +7,7 @@ import { GeetestService } from '../services';
 export class GeetestVerifyGuard implements CanActivate {
   constructor(
     private readonly geetestService: GeetestService,
-    private readonly geetestOptionsProvider: GeetestOptionsProvider
+    private readonly geetestOptionsProvider: GeetestOptionsProvider,
   ) {}
   async canActivate(context: ExecutionContext): Promise<boolean> {
     const request = context.switchToHttp().getRequest<{ body: never }>();
@@ -24,7 +24,7 @@ export class GeetestVerifyGuard implements CanActivate {
     const result = await this.geetestService.validate(
       geetestChallenge,
       geetestValidate,
-      geetestSeccode
+      geetestSeccode,
     );
 
     return !!result.status;

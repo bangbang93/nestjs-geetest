@@ -63,7 +63,7 @@ export class GeetestCoreModule
   }
 
   private static createAsyncProviders(
-    options: GeetestModuleAsyncOptions
+    options: GeetestModuleAsyncOptions,
   ): Provider[] {
     if (options.useExisting || options.useFactory) {
       return [this.createAsyncOptionsProvider(options)];
@@ -72,16 +72,14 @@ export class GeetestCoreModule
     return [
       this.createAsyncOptionsProvider(options),
       {
-        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
         provide: options.useClass!,
-        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
         useClass: options.useClass!,
       },
     ];
   }
 
   private static createAsyncOptionsProvider(
-    options: GeetestModuleAsyncOptions
+    options: GeetestModuleAsyncOptions,
   ): Provider {
     if (options.useFactory) {
       return {
@@ -95,7 +93,6 @@ export class GeetestCoreModule
       provide: GEETEST_OPTIONS,
       useFactory: async (optionsFactory: GeetestOptionsFactory) =>
         await optionsFactory.createGeetestOptions(),
-      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
       inject: [options.useExisting || options.useClass!],
     };
   }

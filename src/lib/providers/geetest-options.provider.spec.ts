@@ -23,7 +23,7 @@ test.before(async () => {
   }).compile();
 
   geetestOptionsProvider = module.get<GeetestOptionsProvider>(
-    GeetestOptionsProvider
+    GeetestOptionsProvider,
   );
 });
 
@@ -72,7 +72,7 @@ test('should export options with default values for bypass sync flow', async (t)
   }).compile();
 
   geetestOptionsProvider = module.get<GeetestOptionsProvider>(
-    GeetestOptionsProvider
+    GeetestOptionsProvider,
   );
   t.deepEqual(geetestOptionsProvider.options, {
     geetestId: 'GEETEST_ID',

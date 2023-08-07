@@ -25,7 +25,7 @@ export class GeetestService {
     private readonly geetestOptionsProvider: GeetestOptionsProvider,
     private readonly httpService: HttpService,
     private readonly bypassStatusProvider: BypassStatusProvider,
-    private readonly bypassPollingService: BypassPollingService
+    private readonly bypassPollingService: BypassPollingService,
   ) {}
 
   private static randomString(size = 21) {
@@ -34,7 +34,7 @@ export class GeetestService {
 
   private static encode(
     str: string,
-    encoding: GeetestRegisterParamsInterface['digestmod']
+    encoding: GeetestRegisterParamsInterface['digestmod'],
   ) {
     return Crypto.createHash(encoding as string)
       .update(str)
@@ -45,7 +45,7 @@ export class GeetestService {
   private static checkParam(
     challenge: string,
     validate: string,
-    seccode: string
+    seccode: string,
   ) {
     return !(
       challenge == undefined ||
@@ -81,7 +81,7 @@ export class GeetestService {
       ...params,
     };
     this.log(
-      `register(): digestmod=${defaultParams.digestmod} bypassStatus=${this.bypassStatusProvider.bypassStatus}`
+      `register(): digestmod=${defaultParams.digestmod} bypassStatus=${this.bypassStatusProvider.bypassStatus}`,
     );
 
     if (!(await this.getBypassStatus())) return this.localRegister();
@@ -92,7 +92,7 @@ export class GeetestService {
 
     const libResult = this.buildRegisterResult(
       originChallenge,
-      defaultParams.digestmod
+      defaultParams.digestmod,
     );
 
     this.log(`register(): libResult=${JSON.stringify(libResult)}.`);
@@ -104,7 +104,7 @@ export class GeetestService {
     challenge: string,
     validate: string,
     seccode: string,
-    params?: GeetestRegisterParamsInterface
+    params?: GeetestRegisterParamsInterface,
   ) {
     const defaultParams: GeetestRegisterParamsInterface = {
       digestmod: 'md5',
@@ -125,10 +125,10 @@ export class GeetestService {
     challenge: string,
     validate: string,
     seccode: string,
-    params: GeetestRegisterParamsInterface
+    params: GeetestRegisterParamsInterface,
   ): Promise<GeetestRegisterResultInterface> {
     this.log(
-      `successValidate(): challenge=${challenge}, validate=${validate}, seccode=${validate}.`
+      `successValidate(): challenge=${challenge}, validate=${validate}, seccode=${validate}.`,
     );
     if (!GeetestService.checkParam(challenge, validate, seccode)) {
       return {
@@ -140,7 +140,7 @@ export class GeetestService {
     const responseSeccode = await this.requestValidate(
       challenge,
       seccode,
-      params
+      params,
     );
 
     this.log(`responseSeccode: ${responseSeccode}`);
@@ -163,7 +163,7 @@ export class GeetestService {
 
   private failValidate(challenge: string, validate: string, seccode: string) {
     this.log(
-      `failValidate(): challenge=${challenge}, validate=${validate}, seccode=${seccode}.`
+      `failValidate(): challenge=${challenge}, validate=${validate}, seccode=${seccode}.`,
     );
     let libResult: GeetestRegisterResultInterface;
     if (!GeetestService.checkParam(challenge, validate, seccode)) {
@@ -193,7 +193,7 @@ export class GeetestService {
   private async requestValidate(
     challenge: string,
     seccode: string,
-    params: GeetestRegisterParamsInterface
+    params: GeetestRegisterParamsInterface,
   ) {
     params = Object.assign(params, {
       seccode: seccode,
@@ -208,8 +208,8 @@ export class GeetestService {
 
     this.log(
       `requestValidate(): url=${validate_url}, params=${JSON.stringify(
-        params
-      )}.`
+        params,
+      )}.`,
     );
 
     let responseSeccode;
@@ -228,12 +228,13 @@ export class GeetestService {
       this.log(
         `requestValidate(): response.status=${
           response.status
-        }, response.body=${JSON.stringify(resBody)}.`
+        }, response.body=${JSON.stringify(resBody)}.`,
       );
 
       responseSeccode = resBody.seccode;
     } catch (e) {
-      this.log('requestValidate(): error, ' + e.message);
+      const error = e as Error;
+      this.log('requestValidate(): error, ' + error.message);
       responseSeccode = '';
     }
     return responseSeccode;
@@ -241,7 +242,7 @@ export class GeetestService {
 
   private buildRegisterResult(
     originChallenge: string,
-    digestmod: GeetestRegisterParamsInterface['digestmod']
+    digestmod: GeetestRegisterParamsInterface['digestmod'],
   ): GeetestRegisterResultInterface {
     if (!originChallenge || originChallenge === '0') {
       const challenge = GeetestService.randomString(32).toLowerCase();
@@ -259,7 +260,7 @@ export class GeetestService {
     } else {
       const challenge = GeetestService.encode(
         originChallenge + this.geetestOptionsProvider.options.geetestKey,
-        digestmod
+        digestmod,
       );
 
       return {
@@ -281,7 +282,9 @@ export class GeetestService {
       this.geetestOptionsProvider.options.registerUrl;
 
     this.log(
-      `requestRegister(): url=${registerUrl}, params=${JSON.stringify(params)}.`
+      `requestRegister(): url=${registerUrl}, params=${JSON.stringify(
+        params,
+      )}.`,
     );
 
     let originChallenge;
@@ -305,14 +308,15 @@ export class GeetestService {
       this.log(
         `requestRegister(): Verify initialization, normal interaction with JiYi network, return code=${
           response.status
-        }, responseBody=${JSON.stringify(resBody)}.`
+        }, responseBody=${JSON.stringify(resBody)}.`,
       );
 
       originChallenge = resBody.challenge;
     } catch (e) {
+      const error = e as Error;
       this.log(
         'requestRegister(): Verify initialization, request exception, follow-up process goes downtime, ' +
-          e.message
+          error.message,
       );
       originChallenge = '';
     }

@@ -14,7 +14,7 @@ export class BypassPollingService {
   constructor(
     private readonly geetestOptionsProvider: GeetestOptionsProvider,
     private readonly bypassStatusProvider: BypassStatusProvider,
-    private readonly httpService: HttpService
+    private readonly httpService: HttpService,
   ) {}
 
   private log(message: string) {
@@ -53,7 +53,7 @@ export class BypassPollingService {
   startPolling() {
     if (this.geetestOptionsProvider.options.bypassConfig.policy === 'polling')
       this.pollingInterval = interval(
-        this.geetestOptionsProvider.options.bypassConfig.frequency
+        this.geetestOptionsProvider.options.bypassConfig.frequency,
       )
         .pipe(() => this.checkBypassStatus())
         .subscribe({
