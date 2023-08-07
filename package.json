@@ -1,6 +1,6 @@
 {
   "name": "@bangbang93/nestjs-geetest",
-  "version": "2.0.6",
+  "version": "2.1.1",
   "description": "NestJs library for GeeTest integration.",
   "main": "build/main/index.js",
   "typings": "build/main/index.d.ts",
